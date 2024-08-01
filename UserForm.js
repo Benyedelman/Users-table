@@ -1,27 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, TextInput, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { Button } from 'react-native';
 
 
 
-const UserForm = ({ onSubmit }) => {
+const UserForm = ({ onSubmit, initialUser = null }) => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [email, setEmail] = useState('');
     const [role, setRole] = useState('');
+
+    // Added useEffect to handle initialUser
+  useEffect(() => {
+    if (initialUser) {
+      setFirstName(initialUser.firstName);
+      setLastName(initialUser.lastName);
+      setPhoneNumber(initialUser.phoneNumber);
+      setEmail(initialUser.email);
+      setRole(initialUser.role);
+    }
+  }, [initialUser]);
   
     const handleSubmit = () => {
-      const nameRegex = /^[a-zA-Z]+$/;
+      const nameRegex = /^[a-zA-Zא-ת\s]+$/;
       const phoneRegex = /^[0-9]+$/;
   
-      if (!nameRegex.test(firstName) || !nameRegex.test(lastName)) {
-        alert('Name can contain only letters');
+      if (firstName.trim() !== '' && !nameRegex.test(firstName)) {
+        alert('First Name can contain only letters');
+        return;
+      }
+
+      if (lastName.trim() !== '' && !nameRegex.test(lastName)) {
+        alert('Last Name can contain only letters');
         return;
       }
   
-      if (!phoneRegex.test(phoneNumber)) {
+      if (phoneNumber.trim() !== '' && !phoneRegex.test(phoneNumber)) {
         alert('Phone number can contain only numbers');
         return;
       }
@@ -81,6 +97,9 @@ const UserForm = ({ onSubmit }) => {
         borderWidth: 2,
         marginBottom: 10,
         padding: 10,
+        fontSize: 20,           
+        fontWeight: 'bold',    
+        color: 'black',    
       },
       saveButton: {
         backgroundColor: 'blue',
