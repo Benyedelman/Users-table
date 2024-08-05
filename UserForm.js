@@ -11,6 +11,7 @@ const UserForm = ({ onSubmit, initialUser = null }) => {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [email, setEmail] = useState('');
     const [role, setRole] = useState('');
+    const [editing, setEditing] = useState(false); 
 
     // Added useEffect to handle initialUser
   useEffect(() => {
@@ -27,17 +28,17 @@ const UserForm = ({ onSubmit, initialUser = null }) => {
       const nameRegex = /^[a-zA-Zא-ת\s]+$/;
       const phoneRegex = /^[0-9]+$/;
   
-      if (firstName.trim() !== '' && !nameRegex.test(firstName)) {
+      if (!nameRegex.test(firstName)) {
         alert('First Name can contain only letters');
         return;
       }
 
-      if (lastName.trim() !== '' && !nameRegex.test(lastName)) {
+      if (!nameRegex.test(lastName)) {
         alert('Last Name can contain only letters');
         return;
       }
   
-      if (phoneNumber.trim() !== '' && !phoneRegex.test(phoneNumber)) {
+      if (!phoneRegex.test(phoneNumber)) {
         alert('Phone number can contain only numbers');
         return;
       }
